@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>First Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Leckerli+One&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #ff66b2; /* Rose Pink */
+            color: black;
+            font-family: 'Pacifico', cursive;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+            position: relative;
+            overflow: hidden;
+            transition: background 0.5s ease-in-out;
+        }
+        
+        .background-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('bg-rose.jpg') center/cover no-repeat;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .header {
+            position: absolute;
+            top: 10px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 40px;
+            font-size: 30px;
+            align-items: center;
+        }
+        .header div {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .text-container {
+            text-align: center;
+            font-size: 100px;
+            line-height: 1.2;
+            margin-top: -70px;
+            text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+        }
+        .text-container div {
+            margin: 10px 0;
+        }
+        .button, .close-button {
+            background-color: #ffb6c1; /* Light Pink */
+            border: 2px solid gray;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            margin-top: 5px;
+            margin-left: 10px;
+            margin-right: 10px;
+            font-family: 'Leckerli One', cursive;
+            transition: background-color 0.3s ease;
+            transition: box-shadow 0.3s ease-in-out;
+        }
+        .button:hover, .close-button:hover {
+            background-color: #ff69b4; /* Darker Pink */
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        .panel {
+            position: fixed;
+            width: 80vh; /* Increase size */
+            height: 80vh; /* Keep it square */
+            max-width: 80vw; /* Prevents excessive scaling */
+            max-height: 80vw;
+            bottom: -100%;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            transition: bottom 0.5s ease-in-out;
+            border: 5px solid black;
+            background-color: white;
+            z-index: 2;
+        }
+        .panel.active {
+            bottom: 12.5%;
+        }
+        .panel.gray {
+            background: #D69ADE;
+        }
+        .panel.gray img {
+            display: block;
+            max-width: 100%;
+            padding-left: 205px;
+            padding-right: 205px;
+            height: 200px;
+            border-radius: 50%; /* Optional: Makes the image circular */
+            margin-bottom: 10px;
+            border: 3px solid #AA60C8; /* If you want a border around the image itself */
+        }
+        .panel.light-red {
+            background: #7D8ABC;
+        }
+        .panel.light-red img {
+            display: block;
+            max-width: 100%;
+            padding-left: 205px;
+            padding-right: 205px;
+            height: 200px;
+            border-radius: 50%; /* Optional: Makes the image circular */
+            margin-bottom: 10px;
+            border: 3px solid #3d3c3d; /* If you want a border around the image itself */
+        }
+        .enter-button-container {
+            position: absolute;
+            bottom: 20px;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            z-index: 1;
+        }
+        .enter-button-container .button {
+            margin-top: 100px;
+            margin-bottom: 100px;
+            padding: 26.67px 53.33px; /* Reduced by 1/3 */
+            font-size: 42.67px; /* Reduced by 1/3 */
+            transition: background 0.5s ease-in-out;
+        }
+        @keyframes slideFromRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideFromLeft {
+            from {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideFromBottomRight {
+            from {
+                transform: translate(100%, 100%);
+                opacity: 0;
+            }
+            to {
+                transform: translate(0, 0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideFromBottomLeft {
+            from {
+                transform: translate(-100%, 100%);
+                opacity: 0;
+            }
+            to {
+                transform: translate(0, 0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideFromBottomCenter {
+            from {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideFromTop {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+        .cat {
+            margin: 0;
+            padding: 0;
+            display: block;    
+            position: fixed;
+            width: 200px; /* Adjust as needed */
+            height: auto;
+            opacity: 0;
+            transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+        }
+        
+        /* === Right Cat (Appears from right) === */
+        .cat-right {
+            right: -200px; /* Start outside screen */
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .cat.show-right {
+            right: 10px; /* Move into view */
+            opacity: 1;
+        }
+        
+        /* === Left Cat (Appears from left) === */
+        .cat-left {
+            left: -200px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .cat.show-left {
+            left: 10px;
+            opacity: 1;
+        }
+        
+        /* === Bottom Right Cat (Appears from bottom right) === */
+        .cat-botright {
+            right: 20px;
+            bottom: -200px;
+        }
+        .cat.show-bottom-right {
+            bottom: 10px;
+            opacity: 1;
+        }
+        
+        /* === Bottom Left Cat (Appears from bottom left) === */
+        .cat-botleft {
+            left: 20px;
+            bottom: -200px;
+        }
+        .cat.show-bottom-left {
+            bottom: 10px;
+            opacity: 1;
+        }
+        
+        /* === Top Center Cat (Appears from top center, FLIPPED) === */
+        .cat-topcenter {
+            top: -200px;
+            left: 50%;
+            transform: translateX(-50%) scaleY(-1); /* Flip vertically */
+        }
+        .cat.show-top {
+            top: 10px;
+            opacity: 1;
+        }
+        
+        /* === Fade out when hiding === */
+        .hide {
+            opacity: 0 !important;
+            transition: opacity 0.5s ease-in-out;
+        }        
+    </style>
+</head>
+<body>
+    <div class="background-image" id="bgImage"></div>
+    <div class="header">
+        <div class="to">
+            To: Zela_
+            <button class="button" onclick="showPanel('aboutToPanel')">About her...</button>
+        </div>
+        <div class="from">
+            From: Makoy_
+            <button class="button" onclick="showPanel('aboutFromPanel')">About him...</button>
+        </div>
+    </div>
+    <div class="text-container">
+        <div>Z E L A 'S</div>
+        <div>W E B S I T E</div>
+    </div>
+    
+    <div class="panel gray" id="aboutToPanel">
+        <h2>ABOUT ZELA</h2>
+        <img src="zela_bg.jpg" alt="Profile Picture">
+        <p>Name: Hazel Anne Donasco</p>
+        <p>Nickname: Zela</p>
+        <p>Age: On this day, 20 years old</p>
+        <p>Horoscope: Pisces</p>
+        <p>She is a PnC student who excels on her studies. She is extrovert to those who she got close with. She is an active individual who is physically weak but mentally strong. She likes watching movies and series. She spends her day organizing her things.</p>
+        <button class="close-button" onclick="closePanel('aboutToPanel')">Close</button>
+    </div>
+
+    <div class="panel light-red" id="aboutFromPanel">
+        <h2>ABOUT MAKOY</h2>
+        <img src="makoy_bg.jpg" alt="Profile Picture">
+        <p>Name: Macky Jordan</p>
+        <p>Nickname: Makoy</p>
+        <p>Age: 20 years old</p>
+        <p>Horoscope: Scorpio</p>
+        <p>He is a PnC student who slightly excel to his program. He is a timid individual and an introvert. He likes reading and watching some exciting genres like torture, thriller, etc. He spend his day loafing around.</p>
+        <button class="close-button" onclick="closePanel('aboutFromPanel')">Close</button>
+    </div>
+
+    <div class="enter-button-container">
+        <button class="button" onmouseover="changeBackground()" onmouseout="resetBackground()" onclick="goToNewPage()">ENTER</button>
+    </div>
+    <img id="catRight" class="cat cat-right" src="cat-peak-right.png" alt="Cat Right">
+    <img id="catLeft" class="cat cat-left" src="cat-peak-left.png" alt="Cat Left">
+    <img id="catBotRight" class="cat cat-botright" src="cat-peak-botright.png" alt="Cat Bottom Right">
+    <img id="catBotLeft" class="cat cat-botleft" src="cat-peak-botleft.png" alt="Cat Bottom Left">
+    <img id="catTopCenter" class="cat cat-topcenter" src="cat-peak-botcenter.png" alt="Cat Top Center">
+
+    <audio id="bgMusic" autoplay loop muted>
+        <source src="index_bg.mp3" type="audio/mpeg">
+    </audio>
+    
+
+    <script>
+        function showCat(catId, direction, delay) {
+            let cat = document.getElementById(catId);
+            if (!cat) {
+                console.error(`Element with ID '${catId}' not found.`);
+                return;
+            }
+            
+            setTimeout(() => {
+                cat.style.display = "block"; // Make sure it's visible before animation starts
+                cat.style.opacity = "1"; // Set opacity to visible
+        
+                // Remove any previous animation classes
+                cat.classList.remove("hide");
+        
+                // Force reflow to restart animation
+                void cat.offsetWidth;
+        
+                // Add animation class based on direction
+                cat.classList.add(`show-${direction}`);
+            }, delay); // Delay before showing the cat
+        }
+        
+        function hideCats() {
+            let cats = document.querySelectorAll('.cat');
+            if (cats.length === 0) {
+                console.warn("No elements with class 'cat' found.");
+                return;
+            }
+        
+            cats.forEach(cat => {
+                cat.classList.add("hide"); // Fade-out animation
+                setTimeout(() => {
+                    cat.style.display = "none"; // Hide completely after fading out
+                }, 500);
+            });
+        }
+        
+        // Show all cats with a 1-second delay
+        function showAllCats() {
+            showCat("catRight", "right", 500);      // Appears after 0.5s
+            showCat("catLeft", "left", 500);        // Slightly staggered (1.1s)
+            showCat("catBotRight", "bottom-right", 600); // (1.2s)
+            showCat("catBotLeft", "bottom-left", 600);  // (1.3s)
+            showCat("catTopCenter", "top", 700);    // Last one appears (1.4s)
+        }
+        
+        // Event listeners for enter button hover
+        document.querySelector('.enter-button-container .button').addEventListener('mouseover', function() {
+            showAllCats();
+        });
+        
+        document.querySelector('.enter-button-container .button').addEventListener('mouseout', function() {
+            hideCats();
+        });        
+        function showPanel(panelId) {
+            let panel = document.getElementById(panelId);
+            if (!panel) {
+                console.error(`Panel with ID '${panelId}' not found.`);
+                return;
+            }
+        
+            panel.classList.add("active"); // Show panel
+        }
+        
+        function closePanel(panelId) {
+            let panel = document.getElementById(panelId);
+            if (!panel) {
+                console.error(`Panel with ID '${panelId}' not found.`);
+                return;
+            }
+        
+            panel.classList.remove("active"); // Hide panel
+        }        
+    
+        function goToNewPage() {
+            window.location.href = "newpage.html"; // Redirects to the new page
+        }
+
+        function changeBackground() {
+            document.getElementById("bgImage").style.opacity = "0.5";
+        }
+    
+        function resetBackground() {
+            document.getElementById("bgImage").style.opacity = "0";
+        }
+        document.addEventListener("DOMContentLoaded", function() {
+            let bgMusic = document.getElementById("bgMusic");
+    
+            // Try playing automatically
+            let playPromise = bgMusic.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(() => {
+                    console.warn("Autoplay blocked. Will unmute on interaction.");
+                });
+            }
+    
+            // Unmute when the user interacts
+            document.body.addEventListener("click", function() {
+                bgMusic.muted = false;
+                bgMusic.play();
+            });
+        });
+    </script>    
+</body>
+</html>
