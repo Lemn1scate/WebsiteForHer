@@ -189,6 +189,19 @@
             cursor: pointer;
         }
         
+        .message-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
+        .message-button img {
+            width: 60px; /* Adjust size as needed */
+            height: 60px;
+        }
+        .message-button img:hover {
+            transform: scale(1.2); /* Increases size by 20% when hovered */
+        }
 
     </style>
 </head>
@@ -206,6 +219,11 @@
         <button class="grid-button"><img src="Zela_Promise.png" alt="Promise"></button>
         <button class="grid-button"><img src="Zela_Letter.png" alt="Letter"></button>
     </div>
+    
+    <a href="#" class="message-button">
+        <img src="message.png" onclick="openDriveLink7()" alt="Message">
+    </a>
+
     
     <!-- Panels (Initially Hidden) -->
     <div id="panel1" class="panel">
@@ -381,6 +399,9 @@
         }
         function openDriveLink6() {
             window.open("https://drive.google.com/file/d/14zq18zQA-4mFJwqFW-ot7UgtDNtaj_k4/view?usp=drive_link", "_blank");
+        }
+        function openDriveLink7() {
+            window.open("https://drive.google.com/file/d/1IPAU7ZGMGsG_iMNkkQ53ObBj7vpv8QTd/view?usp=drive_link", "_blank");
         }
     </script>
 </body>
